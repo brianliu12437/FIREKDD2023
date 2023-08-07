@@ -13,8 +13,6 @@ from sklearn.ensemble import BaggingRegressor
 
 from scipy.sparse import csc_matrix
 import julia # set julia path below
-julia.install(julia = r"C:\Users\bliu1\AppData\Local\Programs\Julia-1.7.1\bin\julia.exe")
-julia.Julia(runtime=r"C:\Users\bliu1\AppData\Local\Programs\Julia-1.7.1\bin\julia.exe")
 from julia import Lasso
 from julia import Main
 
