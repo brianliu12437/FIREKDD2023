@@ -12,21 +12,23 @@ import gc
 from sklearn.ensemble import BaggingRegressor
 
 from scipy.sparse import csc_matrix
-import julia # set julia path below
-from julia import Lasso
-from julia import Main
 
 
-#### Methods for Setup
 
-fused_lasso_def = """
-using Lasso
-function fused_lasso(theta_bar,alpha)
-    fuse1d = fit(FusedLasso,theta_bar,alpha)
-    return coef(fuse1d)
-end
-"""
-Main.eval(fused_lasso_def)
+import julia # set julia path below and uncomment the below lines
+# from julia import Lasso
+# from julia import Main
+# fused_lasso_def = """
+# using Lasso
+# function fused_lasso(theta_bar,alpha)
+#     fuse1d = fit(FusedLasso,theta_bar,alpha)
+#     return coef(fuse1d)
+# end
+# """
+# Main.eval(fused_lasso_def)
+
+
+
 
 def get_tree_matrix_sparse(X,tree1):
     leaf_all = np.where(tree1.tree_.feature < 0)[0]
@@ -43,7 +45,7 @@ def get_tree_matrix_sparse(X,tree1):
     matrix_temp = pd.pivot_table(df, index = 'instance',columns = 'node',values = 'value').fillna(0)
     return csc_matrix(matrix_temp.values), matrix_temp.columns.values
 
-def get_node_harvest_matrix_sparse(X,tree_list):
+def get_node_matrix_sparse(X,tree_list):
     matrix_full, nodes = get_tree_matrix_sparse(X,tree_list[0])
     node_list = [nodes]
     for tree1 in tree_list[1:]:
